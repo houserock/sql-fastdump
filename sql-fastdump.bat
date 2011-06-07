@@ -36,6 +36,7 @@ echo   2 - dump db - %mangos%
 echo   3 - dump db - %char%
 echo   4 - dump db - %realm%
 echo   5 - dump db - %sd2%
+echo   6 - delete profile
 echo   X - close
 set /p "main=choice?: "
 if %main%==1 call :checkall
@@ -43,6 +44,7 @@ if %main%==2 call :checksingle
 if %main%==3 call :checksingle
 if %main%==4 call :checksingle
 if %main%==5 call :checksingle
+if %main%==6 call :deleteprofile
 if %main%==x call :close
 if %main%==X call :close
 call :unknownoption
@@ -106,6 +108,40 @@ echo.
 echo press any key to continue.
 pause >nul
 call :main
+
+:deleteprofile
+set /p "deleteprofile=delete profile? (y|n): "
+if "%deleteprofile%"=="n" call :main
+if "%deleteprofile%"=="N" call :main
+if "%deleteprofile%"=="y" (
+echo.
+echo this could take a while.. application will be closed
+  >"%temp%\bat.tmp" type nul
+  for /f "tokens=* delims=12334567890" %%a in ('findstr /b /n /v /c:"*::" "%~f0"') do (
+    set "line=%%a"
+    call :writeNew
+  )
+  move "%temp%\bat.tmp" "%~f0" >nul
+  exit
+)
+
+if "%deleteprofile%"=="Y" (
+echo.
+echo this could take a while.. application will be closed
+  >"%temp%\bat.tmp" type nul
+  for /f "tokens=* delims=12334567890" %%a in ('findstr /b /n /v /c:"*::" "%~f0"') do (
+    set "line=%%a"
+    call :writeNew
+  )
+  move "%temp%\bat.tmp" "%~f0" >nul
+  exit
+)
+
+:writeNew
+setlocal enabledelayedexpansion
+>>"%temp%\bat.tmp" echo\!line:~1!
+endlocal
+goto :eof
 
 :unknownoption
 echo unknown option. press any key to continue.
