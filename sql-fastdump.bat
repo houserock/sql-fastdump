@@ -63,21 +63,21 @@ call :main
 mkdir %dirname%
 echo dump db - %mangos%
 .\mysqldump --host=%host% --user=%user% --password=%pass% %mangos% > ".\%dirname%\%mangos%.sql"
-echo  done.
+if %errorlevel%==0 echo  done.
 echo.
 echo dump db - %char%
 .\mysqldump --host=%host% --user=%user% --password=%pass% %char% > ".\%dirname%\%char%.sql"
-echo  done.
+if %errorlevel%==0 echo  done.
 echo.
 echo dump db - %realm%
 .\mysqldump --host=%host% --user=%user% --password=%pass% %realm% > ".\%dirname%\%realm%.sql"
-echo  done.
+if %errorlevel%==0 echo  done.
 echo.
 echo dump db - %sd2%
 .\mysqldump --host=%host% --user=%user% --password=%pass% %sd2% > ".\%dirname%\%sd2%.sql"
-echo  done.
+if %errorlevel%==0 echo  done.
 echo.
-echo done. press any key to continue.
+echo press any key to continue.
 pause >nul
 call :main
 
