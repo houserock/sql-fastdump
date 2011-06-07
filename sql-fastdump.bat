@@ -136,6 +136,9 @@ echo this could take a while.. application will be closed
   move "%temp%\bat.tmp" "%~f0" >nul
   exit
 )
+echo unknown option. press any key to continue.
+pause >nul
+call :main
 
 :writeNew
 setlocal enabledelayedexpansion
