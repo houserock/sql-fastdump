@@ -1,6 +1,7 @@
 @echo off
 title sql-fastdump
 for /f "tokens=1* delims=:" %%a in ('findstr /b /c:"*::" "%~f0"') do set "%%b"
+set olddir=%cd%
 
 :profilecreate
 if defined profile call :main
@@ -26,7 +27,7 @@ exit
 
 :main
 cls
-cd dump
+if not "%cd%"=="%olddir%\dump" cd dump
 echo choose option:
 echo   1 - dump all
 echo   2 - dump db - %mangos%
