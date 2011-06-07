@@ -35,15 +35,25 @@ echo   3 - dump db - %char%
 echo   4 - dump db - %realm%
 echo   5 - dump db - %sd2%
 set /p "main=choice?: "
-if %main%==1 call :dumpall
+if %main%==1 call :dumpall1
 if %main%==2 call :dumpmangos
 if %main%==3 call :dumpchar
 if %main%==4 call :dumprealm
 if %main%==5 call :dumpsd2
 exit
 
-:dumpall
+:dumpall1
 set dirname="%date:~-4%-%date:~-7,2%-%date:~-10,2%-dump"
+set dumpall1=undef
+if exist %dirname% set /p "dumpall1=dump already exists. delete? (y|n): "
+if %dumpall1%==y rmdir %dirname% /S /Q && call :dumpall2
+if %dumpall1%==Y rmdir %dirname% /S /Q && call :dumpall2
+if %dumpall1%==n call :main
+if %dumpall1%==N call :main
+if not exist %dirname% call :dumpall2
+call :main
+
+:dumpall2
 mkdir %dirname%
 echo dump db - %mangos%
 .\mysqldump --host=%host% --user=%user% --password=%pass% %mangos% > ".\%dirname%\%mangos%.sql"
