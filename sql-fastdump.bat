@@ -1,7 +1,6 @@
 @echo off
 title sql-fastdump
 for /f "tokens=1* delims=:" %%a in ('findstr /b /c:"*::" "%~f0"') do set "%%b"
-cd dump
 
 :profilecreate
 if defined profile call :main
@@ -27,6 +26,7 @@ exit
 
 :main
 cls
+cd dump
 echo choose option:
 echo   1 - dump all
 echo   2 - dump db - %mangos%
@@ -42,7 +42,7 @@ if %main%==5 call :dumpsd2
 exit
 
 :dumpall
-set dirname="%date:~-4%-%date~-7,2%-%date:~-10,2%-dump"
+set dirname="%date:~-4%-%date:~-7,2%-%date:~-10,2%-dump"
 mkdir %dirname%
 echo dump db - %mangos%
 .\mysqldump --host=%host% --user=%user% --password=%pass% %mangos% > ".\%dirname%\%mangos%.sql"
