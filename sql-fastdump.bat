@@ -7,6 +7,7 @@ set olddir=%cd%
 if defined profile call :main
 echo create profile for sql-fastdump:
 echo.
+>>"%~f0" call echo.
 set /p "host= MySQL server adress (Default = localhost): "
 >>"%~f0" call echo *::host=%%host%%
 set /p "user= MySQL user (Default = root): "
