@@ -28,6 +28,7 @@ exit
 :main
 cls
 if not "%cd%"=="%olddir%\dump" cd dump
+if not "%dirname%"=="%date:~-4%-%date:~-7,2%-%date:~-10,2%-dump" set dirname="%date:~-4%-%date:~-7,2%-%date:~-10,2%-dump"
 echo choose option:
 echo   1 - dump all
 echo   2 - dump db - %mangos%
@@ -36,14 +37,13 @@ echo   4 - dump db - %realm%
 echo   5 - dump db - %sd2%
 set /p "main=choice?: "
 if %main%==1 call :dumpall1
-if %main%==2 call :dumpmangos
-if %main%==3 call :dumpchar
-if %main%==4 call :dumprealm
-if %main%==5 call :dumpsd2
+if %main%==2 call :checksingle
+if %main%==3 call :checksingle
+if %main%==4 call :checksingle
+if %main%==5 call :checksingle
 exit
 
 :dumpall1
-set dirname="%date:~-4%-%date:~-7,2%-%date:~-10,2%-dump"
 set dumpall1=undef
 if exist %dirname% set /p "dumpall1=dump already exists. delete? (y|n): "
 if %dumpall1%==y rmdir %dirname% /S /Q && call :dumpall2
@@ -69,6 +69,31 @@ echo  done.
 echo.
 echo dump db - %sd2%
 .\mysqldump --host=%host% --user=%user% --password=%pass% %sd2% > ".\%dirname%\%sd2%.sql"
+echo  done.
+echo.
+echo done. press any key to continue.
+pause >nul
+call :main
+
+:checksingle
+if %main%==2 set dumptarg=%mangos%
+if %main%==3 set dumptarg=%char%
+if %main%==4 set dumptarg=%realm%
+if %main%==5 set dumptarg=%sd2%
+set checksingle=undef
+if exist ".\%dirname%\%dumptarg%.sql" set /p "checksingle=dump %dumptarg% already exists. delete? (y|n): "
+if %checksingle%==y del ".\%dirname%\%dumptarg%.sql" /F >nul
+if %checksingle%==Y del ".\%dirname%\%dumptarg%.sql" /F >nul
+if %checksingle%==n call :main
+if %checksingle%==N call :main
+if not exist ".\%dirname%\%dumptarg%.sql" call :dumpsingle
+call :main
+
+:dumpsingle
+if not exist %dirname% mkdir %dirname%
+echo here
+echo dump db - %dumptarg%
+.\mysqldump --host=%host% --user=%user% --password=%pass% %dumptarg% > ".\%dirname%\%dumptarg%.sql"
 echo  done.
 echo.
 echo done. press any key to continue.
