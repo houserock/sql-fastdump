@@ -91,7 +91,6 @@ call :main
 
 :dumpsingle
 if not exist %dirname% mkdir %dirname%
-echo here
 echo dump db - %dumptarg%
 .\mysqldump --host=%host% --user=%user% --password=%pass% %dumptarg% > ".\%dirname%\%dumptarg%.sql"
 echo  done.
