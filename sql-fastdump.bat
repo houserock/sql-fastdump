@@ -36,13 +36,16 @@ echo   2 - dump db - %mangos%
 echo   3 - dump db - %char%
 echo   4 - dump db - %realm%
 echo   5 - dump db - %sd2%
+echo   X - close
 set /p "main=choice?: "
 if %main%==1 call :checkall
 if %main%==2 call :checksingle
 if %main%==3 call :checksingle
 if %main%==4 call :checksingle
 if %main%==5 call :checksingle
-exit
+if %main%==x call :close
+if %main%==X call :close
+call :unknownoption
 
 :checkall
 set checkall=undef
@@ -52,6 +55,8 @@ if %checkall%==Y rmdir %dirname% /S /Q && call :dumpall
 if %checkall%==n call :main
 if %checkall%==N call :main
 if not exist %dirname% call :dumpall
+echo unknown option. press any key to continue.
+pause >nul
 call :main
 
 :dumpall
@@ -88,14 +93,26 @@ if %checksingle%==Y del ".\%dirname%\%dumptarg%.sql" /F >nul
 if %checksingle%==n call :main
 if %checksingle%==N call :main
 if not exist ".\%dirname%\%dumptarg%.sql" call :dumpsingle
+echo unknown option. press any key to continue.
+pause >nul
 call :main
 
 :dumpsingle
 if not exist %dirname% mkdir %dirname%
 echo dump db - %dumptarg%
 .\mysqldump --host=%host% --user=%user% --password=%pass% %dumptarg% > ".\%dirname%\%dumptarg%.sql"
-echo  done.
+if %errorlevel%==0 echo  done.
 echo.
-echo done. press any key to continue.
+echo press any key to continue.
 pause >nul
 call :main
+
+:unknownoption
+echo unknown option. press any key to continue.
+pause >nul
+call :main
+
+:close
+echo thanks for using sql-fastdump.
+pause >nul
+exit
