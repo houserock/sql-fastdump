@@ -30,6 +30,9 @@ exit
 cls
 if not "%cd%"=="%olddir%\dump" cd dump
 if not "%dirname%"=="%date:~-4%-%date:~-7,2%-%date:~-10,2%-dump" set dirname="%date:~-4%-%date:~-7,2%-%date:~-10,2%-dump"
+echo user: %user% @ host: %host%    password is %pass%
+echo.
+echo.
 echo choose option:
 echo   1 - dump all
 echo   2 - dump db - %mangos%
