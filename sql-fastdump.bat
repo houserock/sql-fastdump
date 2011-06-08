@@ -40,6 +40,7 @@ echo   3 - dump db - %char%
 echo   4 - dump db - %realm%
 echo   5 - dump db - %sd2%
 echo   6 - delete profile
+echo   7 - infos
 echo   X - close
 set /p "main=choice?: "
 if %main%==1 call :checkall
@@ -48,6 +49,7 @@ if %main%==3 call :checksingle
 if %main%==4 call :checksingle
 if %main%==5 call :checksingle
 if %main%==6 call :deleteprofile
+if %main%==7 call :infos
 if %main%==x call :close
 if %main%==X call :close
 call :unknownoption
@@ -148,6 +150,26 @@ setlocal enabledelayedexpansion
 >>"%temp%\bat.tmp" echo\!line:~1!
 endlocal
 goto :eof
+
+:infos
+echo sql-fastdump by houserock and isimp
+echo get the newest version at github.com/houserock/sql-fastdump
+echo.
+echo.
+echo changelog:
+echo initial release: profilecreate
+echo added dumpall-function
+echo added check if dump already exists
+echo added singledumps
+echo added option for deleting profile
+echo added infos
+echo.
+echo to see the whole changelog visit github.com/houserock/sql-fastdumps/commits
+echo.
+echo.
+echo press any key to continue.
+pause >nul
+call :main
 
 :unknownoption
 echo unknown option. press any key to continue.
