@@ -7,20 +7,20 @@ set olddir=%cd%
 if defined profile call :main
 echo create profile for sql-fastdump:
 echo.
->>"%~f0" call echo.
 set /p "host= MySQL server adress (Default = localhost): "
->>"%~f0" call echo *::host=%%host%%
 set /p "user= MySQL user (Default = root): "
->>"%~f0" call echo *::user=%%user%%
 set /p "pass= MySQL password: "
->>"%~f0" call echo *::pass=%%pass%%
 set /p "mangos= db - mangos (Default = mangos): "
->>"%~f0" call echo *::mangos=%%mangos%%
 set /p "char= db - characters (Default = characters): "
->>"%~f0" call echo *::char=%%char%%
 set /p "realm= db - realmd (Default = realmd): "
->>"%~f0" call echo *::realm=%%realm%%
 set /p "sd2= db - sd2 (Default = scriptdev2): "
+>>"%~f0" call echo.
+>>"%~f0" call echo *::host=%%host%%
+>>"%~f0" call echo *::user=%%user%%
+>>"%~f0" call echo *::pass=%%pass%%
+>>"%~f0" call echo *::mangos=%%mangos%%
+>>"%~f0" call echo *::char=%%char%%
+>>"%~f0" call echo *::realm=%%realm%%
 >>"%~f0" call echo *::sd2=%%sd2%%
 >>"%~f0" call echo *::profile=isdefined
 start sql-fastdump.bat
